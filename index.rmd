@@ -96,15 +96,36 @@ results.json <- getURL( URL, ssl.verifypeer = FALSE )
 
 r2 <- gsub( "\n", "", results.json )
 
-dat <- fromJSON( r2 )
+names( r2 )
 
-dat %>% pander()
+```
 
+The generic API call will return a list with five tables: 
+
+* **organization**: nonprofit org attributes  
+* **filings_with_data**: basic data from tax years where 990 efile data available  
+* **filings_without_data**: tax years where PDFs are available, but no digitized data 
+* **data_source**: original sources of data available through the API 
+* **api_version**: version of NP Explorer API (currently v2) 
+
+
+```{r}
+api.tables <- fromJSON( r2 )
+head( api.tables$organization ) %>% pander()
+head( api.tables$filings_with_data ) %>% pander()
+head( api.tables$filings_without_data ) %>% pander()
+api.tables$data_source %>% pander()
+api.tables$api_version 
 ```
 
 
 
+
 ## Batch PDF Download
+
+Available PDFs will be listed in the **filings_without_data** table. 
+
+Preview PDFs:  [ZIP Directory](https://github.com/Nonprofit-Open-Data-Collective/propublica-api/raw/main/IRS990_PDFs.zip) [ON GITHUB](https://github.com/Nonprofit-Open-Data-Collective/propublica-api/tree/main/IRS990_PDFs)  
 
 For the organizations with paper filings available you can download PDFs using the following loop: 
 
@@ -164,7 +185,7 @@ download_pdfs <- function( ein )
    
   }
   
-  return( d )
+  return( dir() )
 
 }
 ```

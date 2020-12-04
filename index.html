@@ -13,16 +13,16 @@
 
 <title>ProPublic Nonprofit Explorer API</title>
 
-<script src="propublica-api_files/jquery-1.11.3/jquery.min.js"></script>
+<script src="index_files/jquery-1.11.3/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<link href="propublica-api_files/bootstrap-3.3.5/css/readable.min.css" rel="stylesheet" />
-<script src="propublica-api_files/bootstrap-3.3.5/js/bootstrap.min.js"></script>
-<script src="propublica-api_files/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
-<script src="propublica-api_files/bootstrap-3.3.5/shim/respond.min.js"></script>
-<script src="propublica-api_files/navigation-1.1/tabsets.js"></script>
-<script src="propublica-api_files/accessible-code-block-0.0.1/empty-anchor.js"></script>
-<link href="propublica-api_files/pagedtable-1.1/css/pagedtable.css" rel="stylesheet" />
-<script src="propublica-api_files/pagedtable-1.1/js/pagedtable.js"></script>
+<link href="index_files/bootstrap-3.3.5/css/readable.min.css" rel="stylesheet" />
+<script src="index_files/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="index_files/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="index_files/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="index_files/navigation-1.1/tabsets.js"></script>
+<script src="index_files/accessible-code-block-0.0.1/empty-anchor.js"></script>
+<link href="index_files/pagedtable-1.1/css/pagedtable.css" rel="stylesheet" />
+<script src="index_files/pagedtable-1.1/js/pagedtable.js"></script>
 
 
 <style type="text/css">code{white-space: pre;}</style>
@@ -322,11 +322,20 @@ summary {
 <span id="cb1-14"><a href="#cb1-14"></a></span>
 <span id="cb1-15"><a href="#cb1-15"></a>r2 &lt;-<span class="st"> </span><span class="kw">gsub</span>( <span class="st">&quot;</span><span class="ch">\n</span><span class="st">&quot;</span>, <span class="st">&quot;&quot;</span>, results.json )</span>
 <span id="cb1-16"><a href="#cb1-16"></a></span>
-<span id="cb1-17"><a href="#cb1-17"></a>dat &lt;-<span class="st"> </span><span class="kw">fromJSON</span>( r2 )</span>
-<span id="cb1-18"><a href="#cb1-18"></a></span>
-<span id="cb1-19"><a href="#cb1-19"></a>dat <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">pander</span>()</span></code></pre></div>
+<span id="cb1-17"><a href="#cb1-17"></a><span class="kw">names</span>( r2 )</span></code></pre></div>
+<pre><code>## NULL</code></pre>
+<p>The generic API call will return a list with five tables:</p>
 <ul>
-<li><p><strong>organization</strong>:</p>
+<li><strong>organization</strong>: nonprofit org attributes<br />
+</li>
+<li><strong>filings_with_data</strong>: basic data from tax years where 990 efile data available<br />
+</li>
+<li><strong>filings_without_data</strong>: tax years where PDFs are available, but no digitized data</li>
+<li><strong>data_source</strong>: original sources of data available through the API</li>
+<li><strong>api_version</strong>: version of NP Explorer API (currently v2)</li>
+</ul>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a>api.tables &lt;-<span class="st"> </span><span class="kw">fromJSON</span>( r2 )</span>
+<span id="cb3-2"><a href="#cb3-2"></a><span class="kw">head</span>( api.tables<span class="op">$</span>organization ) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">pander</span>()</span></code></pre></div>
 <ul>
 <li><strong>id</strong>: <em>10165097</em></li>
 <li><strong>ein</strong>: <em>10165097</em></li>
@@ -334,36 +343,9 @@ summary {
 <li><strong>careofname</strong>:</li>
 <li><strong>address</strong>: PO BOX 5234</li>
 <li><strong>city</strong>: AUGUSTA</li>
-<li><strong>state</strong>: ME</li>
-<li><strong>zipcode</strong>: 04332-5234</li>
-<li><strong>exemption_number</strong>: <em>0</em></li>
-<li><strong>subsection_code</strong>: <em>6</em></li>
-<li><strong>affiliation_code</strong>: <em>3</em></li>
-<li><strong>classification_codes</strong>: 3000</li>
-<li><strong>ruling_date</strong>: 1983-08-01</li>
-<li><strong>deductibility_code</strong>: <em>2</em></li>
-<li><strong>foundation_code</strong>: <em>0</em></li>
-<li><strong>activity_codes</strong>: 200207000</li>
-<li><strong>organization_code</strong>: <em>1</em></li>
-<li><strong>exempt_organization_status_code</strong>: <em>1</em></li>
-<li><strong>tax_period</strong>: 2019-12-01</li>
-<li><strong>asset_code</strong>: <em>4</em></li>
-<li><strong>income_code</strong>: <em>4</em></li>
-<li><strong>filing_requirement_code</strong>: <em>1</em></li>
-<li><strong>pf_filing_requirement_code</strong>: <em>0</em></li>
-<li><strong>accounting_period</strong>: <em>12</em></li>
-<li><strong>asset_amount</strong>: <em>109228</em></li>
-<li><strong>income_amount</strong>: <em>168224</em></li>
-<li><strong>revenue_amount</strong>: <em>160110</em></li>
-<li><strong>ntee_code</strong>: S41Z</li>
-<li><strong>sort_name</strong>:</li>
-<li><strong>created_at</strong>: 2020-11-18T13:12:01.099Z</li>
-<li><strong>updated_at</strong>: 2020-11-18T13:12:01.099Z</li>
-<li><strong>data_source</strong>:</li>
-<li><strong>have_extracts</strong>:</li>
-<li><strong>have_pdfs</strong>:</li>
-</ul></li>
-<li><p><strong>filings_with_data</strong>:</p>
+</ul>
+<!-- end of list -->
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1"></a><span class="kw">head</span>( api.tables<span class="op">$</span>filings_with_data ) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">pander</span>()</span></code></pre></div>
 <table style="width:50%;">
 <caption>Table continues below</caption>
 <colgroup>
@@ -1581,8 +1563,8 @@ summary {
 <td align="center">NA</td>
 </tr>
 </tbody>
-</table></li>
-<li><p><strong>filings_without_data</strong>:</p>
+</table>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1"></a><span class="kw">head</span>( api.tables<span class="op">$</span>filings_without_data ) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">pander</span>()</span></code></pre></div>
 <table style="width:68%;">
 <caption>Table continues below</caption>
 <colgroup>
@@ -1636,18 +1618,6 @@ summary {
 <td align="center">0</td>
 <td align="center"></td>
 </tr>
-<tr class="odd">
-<td align="center">200512</td>
-<td align="center">2005</td>
-<td align="center">0</td>
-<td align="center"></td>
-</tr>
-<tr class="even">
-<td align="center">200412</td>
-<td align="center">2004</td>
-<td align="center">0</td>
-<td align="center"></td>
-</tr>
 </tbody>
 </table>
 <table>
@@ -1678,44 +1648,40 @@ summary {
 <tr class="even">
 <td align="center"><a href="https://projects.propublica.org/nonprofits/download-filing?path=2007_10_EO%2F01-0165097_990O_200612.pdf" class="uri">https://projects.propublica.org/nonprofits/download-filing?path=2007_10_EO%2F01-0165097_990O_200612.pdf</a></td>
 </tr>
-<tr class="odd">
-<td align="center"><a href="https://projects.propublica.org/nonprofits/download-filing?path=2006_06_EO%2F01-0165097_990O_200512.pdf" class="uri">https://projects.propublica.org/nonprofits/download-filing?path=2006_06_EO%2F01-0165097_990O_200512.pdf</a></td>
-</tr>
-<tr class="even">
-<td align="center"><a href="https://projects.propublica.org/nonprofits/download-filing?path=2005_06_EO%2F01-0165097_990O_200412.pdf" class="uri">https://projects.propublica.org/nonprofits/download-filing?path=2005_06_EO%2F01-0165097_990O_200412.pdf</a></td>
-</tr>
 </tbody>
-</table></li>
-<li><p><strong>data_source</strong>: ProPublica Nonprofit Explorer API: <a href="https://projects.propublica.org/nonprofits/api/IRS" class="uri">https://projects.propublica.org/nonprofits/api/IRS</a> Exempt Organizations Business Master File Extract (EO BMF): <a href="https://www.irs.gov/charities-non-profits/exempt-organizations-business-master-file-extract-eo-bmfIRS" class="uri">https://www.irs.gov/charities-non-profits/exempt-organizations-business-master-file-extract-eo-bmfIRS</a> Annual Extract of Tax-Exempt Organization Financial Data: <a href="https://www.irs.gov/uac/soi-tax-stats-annual-extract-of-tax-exempt-organization-financial-data" class="uri">https://www.irs.gov/uac/soi-tax-stats-annual-extract-of-tax-exempt-organization-financial-data</a></p></li>
-<li><p><strong>api_version</strong>: <em>2</em></p></li>
-</ul>
-<!-- end of list -->
+</table>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1"></a>api.tables<span class="op">$</span>data_source <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">pander</span>()</span></code></pre></div>
+<p>ProPublica Nonprofit Explorer API: <a href="https://projects.propublica.org/nonprofits/api/IRS" class="uri">https://projects.propublica.org/nonprofits/api/IRS</a> Exempt Organizations Business Master File Extract (EO BMF): <a href="https://www.irs.gov/charities-non-profits/exempt-organizations-business-master-file-extract-eo-bmfIRS" class="uri">https://www.irs.gov/charities-non-profits/exempt-organizations-business-master-file-extract-eo-bmfIRS</a> Annual Extract of Tax-Exempt Organization Financial Data: <a href="https://www.irs.gov/uac/soi-tax-stats-annual-extract-of-tax-exempt-organization-financial-data" class="uri">https://www.irs.gov/uac/soi-tax-stats-annual-extract-of-tax-exempt-organization-financial-data</a></p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1"></a>api.tables<span class="op">$</span>api_version </span></code></pre></div>
+<pre><code>## [1] 2</code></pre>
 </div>
 <div id="batch-pdf-download" class="section level2">
 <h2>Batch PDF Download</h2>
+<p>Available PDFs will be listed in the <strong>filings_without_data</strong> table.</p>
+<p>Preview PDFs: <a href="https://github.com/Nonprofit-Open-Data-Collective/propublica-api/raw/main/IRS990_PDFs.zip">ZIP Directory</a> <a href="https://github.com/Nonprofit-Open-Data-Collective/propublica-api/tree/main/IRS990_PDFs">ON GITHUB</a></p>
 <p>For the organizations with paper filings available you can download PDFs using the following loop:</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1"></a><span class="co"># BATCH DOWNLOAD PDFs</span></span>
-<span id="cb2-2"><a href="#cb2-2"></a></span>
-<span id="cb2-3"><a href="#cb2-3"></a><span class="kw">dir.create</span>( <span class="st">&quot;IRS990_PDFs&quot;</span> )</span>
-<span id="cb2-4"><a href="#cb2-4"></a></span>
-<span id="cb2-5"><a href="#cb2-5"></a><span class="kw">setwd</span>( <span class="st">&quot;./IRS990_PDFs&quot;</span> )</span>
-<span id="cb2-6"><a href="#cb2-6"></a></span>
-<span id="cb2-7"><a href="#cb2-7"></a>pdfs &lt;-<span class="st"> </span><span class="kw">fromJSON</span>( r2 )<span class="op">$</span>filings_without_data</span>
-<span id="cb2-8"><a href="#cb2-8"></a></span>
-<span id="cb2-9"><a href="#cb2-9"></a><span class="cf">if</span>( <span class="kw">nrow</span>(pdfs) <span class="op">&gt;</span><span class="st"> </span><span class="dv">0</span> )</span>
-<span id="cb2-10"><a href="#cb2-10"></a>{</span>
-<span id="cb2-11"><a href="#cb2-11"></a> <span class="cf">for</span>( i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span><span class="kw">nrow</span>(pdfs) )</span>
-<span id="cb2-12"><a href="#cb2-12"></a> {  </span>
-<span id="cb2-13"><a href="#cb2-13"></a></span>
-<span id="cb2-14"><a href="#cb2-14"></a>   file.name &lt;-<span class="st"> </span><span class="kw">paste0</span>( <span class="st">&quot;EIN_&quot;</span>, ein , <span class="st">&quot;_YEAR_&quot;</span>, pdfs<span class="op">$</span>tax_prd_yr[i], <span class="st">&quot;.pdf&quot;</span> )</span>
-<span id="cb2-15"><a href="#cb2-15"></a>   <span class="kw">download.file</span>( <span class="dt">url=</span>pdfs<span class="op">$</span>pdf_url[i], </span>
-<span id="cb2-16"><a href="#cb2-16"></a>                  <span class="dt">destfile=</span>file.name,</span>
-<span id="cb2-17"><a href="#cb2-17"></a>                  <span class="dt">mode=</span><span class="st">&quot;wb&quot;</span> )  </span>
-<span id="cb2-18"><a href="#cb2-18"></a> }</span>
-<span id="cb2-19"><a href="#cb2-19"></a> </span>
-<span id="cb2-20"><a href="#cb2-20"></a>}</span>
-<span id="cb2-21"><a href="#cb2-21"></a></span>
-<span id="cb2-22"><a href="#cb2-22"></a><span class="kw">dir</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1"></a><span class="co"># BATCH DOWNLOAD PDFs</span></span>
+<span id="cb9-2"><a href="#cb9-2"></a></span>
+<span id="cb9-3"><a href="#cb9-3"></a><span class="kw">dir.create</span>( <span class="st">&quot;IRS990_PDFs&quot;</span> )</span>
+<span id="cb9-4"><a href="#cb9-4"></a></span>
+<span id="cb9-5"><a href="#cb9-5"></a><span class="kw">setwd</span>( <span class="st">&quot;./IRS990_PDFs&quot;</span> )</span>
+<span id="cb9-6"><a href="#cb9-6"></a></span>
+<span id="cb9-7"><a href="#cb9-7"></a>pdfs &lt;-<span class="st"> </span><span class="kw">fromJSON</span>( r2 )<span class="op">$</span>filings_without_data</span>
+<span id="cb9-8"><a href="#cb9-8"></a></span>
+<span id="cb9-9"><a href="#cb9-9"></a><span class="cf">if</span>( <span class="kw">nrow</span>(pdfs) <span class="op">&gt;</span><span class="st"> </span><span class="dv">0</span> )</span>
+<span id="cb9-10"><a href="#cb9-10"></a>{</span>
+<span id="cb9-11"><a href="#cb9-11"></a> <span class="cf">for</span>( i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span><span class="kw">nrow</span>(pdfs) )</span>
+<span id="cb9-12"><a href="#cb9-12"></a> {  </span>
+<span id="cb9-13"><a href="#cb9-13"></a></span>
+<span id="cb9-14"><a href="#cb9-14"></a>   file.name &lt;-<span class="st"> </span><span class="kw">paste0</span>( <span class="st">&quot;EIN_&quot;</span>, ein , <span class="st">&quot;_YEAR_&quot;</span>, pdfs<span class="op">$</span>tax_prd_yr[i], <span class="st">&quot;.pdf&quot;</span> )</span>
+<span id="cb9-15"><a href="#cb9-15"></a>   <span class="kw">download.file</span>( <span class="dt">url=</span>pdfs<span class="op">$</span>pdf_url[i], </span>
+<span id="cb9-16"><a href="#cb9-16"></a>                  <span class="dt">destfile=</span>file.name,</span>
+<span id="cb9-17"><a href="#cb9-17"></a>                  <span class="dt">mode=</span><span class="st">&quot;wb&quot;</span> )  </span>
+<span id="cb9-18"><a href="#cb9-18"></a> }</span>
+<span id="cb9-19"><a href="#cb9-19"></a> </span>
+<span id="cb9-20"><a href="#cb9-20"></a>}</span>
+<span id="cb9-21"><a href="#cb9-21"></a></span>
+<span id="cb9-22"><a href="#cb9-22"></a><span class="kw">dir</span>()</span></code></pre></div>
 <pre><code>## [1] &quot;EIN_010165097_YEAR_2004.pdf&quot; &quot;EIN_010165097_YEAR_2005.pdf&quot;
 ## [3] &quot;EIN_010165097_YEAR_2006.pdf&quot; &quot;EIN_010165097_YEAR_2007.pdf&quot;
 ## [5] &quot;EIN_010165097_YEAR_2008.pdf&quot; &quot;EIN_010165097_YEAR_2009.pdf&quot;
@@ -1723,35 +1689,35 @@ summary {
 </div>
 <div id="draft-function" class="section level2">
 <h2>Draft Function</h2>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1"></a>download_pdfs &lt;-<span class="st"> </span><span class="cf">function</span>( ein )</span>
-<span id="cb4-2"><a href="#cb4-2"></a>{</span>
-<span id="cb4-3"><a href="#cb4-3"></a>  </span>
-<span id="cb4-4"><a href="#cb4-4"></a>  URL &lt;-<span class="st"> </span><span class="kw">paste0</span>( <span class="st">&quot;https://projects.propublica.org/nonprofits/api/v2/organizations/&quot;</span>, ein, <span class="st">&quot;.json&quot;</span> )</span>
-<span id="cb4-5"><a href="#cb4-5"></a>  </span>
-<span id="cb4-6"><a href="#cb4-6"></a>  results.json &lt;-<span class="st"> </span><span class="kw">getURL</span>( URL, <span class="dt">ssl.verifypeer =</span> <span class="ot">FALSE</span> )</span>
-<span id="cb4-7"><a href="#cb4-7"></a>  </span>
-<span id="cb4-8"><a href="#cb4-8"></a>  r2 &lt;-<span class="st"> </span><span class="kw">gsub</span>( <span class="st">&quot;</span><span class="ch">\n</span><span class="st">&quot;</span>, <span class="st">&quot;&quot;</span>, results.json )</span>
-<span id="cb4-9"><a href="#cb4-9"></a>  </span>
-<span id="cb4-10"><a href="#cb4-10"></a>  d &lt;-<span class="st"> </span><span class="kw">fromJSON</span>( r2 )</span>
-<span id="cb4-11"><a href="#cb4-11"></a>  </span>
-<span id="cb4-12"><a href="#cb4-12"></a>  pdfs &lt;-<span class="st"> </span>d<span class="op">$</span>filings_without_data</span>
-<span id="cb4-13"><a href="#cb4-13"></a>  </span>
-<span id="cb4-14"><a href="#cb4-14"></a>  <span class="cf">if</span>( <span class="kw">nrow</span>(pdfs) <span class="op">&gt;</span><span class="st"> </span><span class="dv">0</span> )</span>
-<span id="cb4-15"><a href="#cb4-15"></a>  {</span>
-<span id="cb4-16"><a href="#cb4-16"></a>   <span class="cf">for</span>( i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span><span class="kw">nrow</span>(pdfs) )</span>
-<span id="cb4-17"><a href="#cb4-17"></a>   {  </span>
-<span id="cb4-18"><a href="#cb4-18"></a>  </span>
-<span id="cb4-19"><a href="#cb4-19"></a>     file.name &lt;-<span class="st"> </span><span class="kw">paste0</span>( <span class="st">&quot;EIN_&quot;</span>, ein , <span class="st">&quot;_YEAR_&quot;</span>, pdfs<span class="op">$</span>tax_prd_yr[i], <span class="st">&quot;.pdf&quot;</span> )</span>
-<span id="cb4-20"><a href="#cb4-20"></a>     <span class="kw">download.file</span>( <span class="dt">url=</span>pdfs<span class="op">$</span>pdf_url[i], </span>
-<span id="cb4-21"><a href="#cb4-21"></a>                    <span class="dt">destfile=</span>file.name,</span>
-<span id="cb4-22"><a href="#cb4-22"></a>                    <span class="dt">mode=</span><span class="st">&quot;wb&quot;</span> )  </span>
-<span id="cb4-23"><a href="#cb4-23"></a>   }</span>
-<span id="cb4-24"><a href="#cb4-24"></a>   </span>
-<span id="cb4-25"><a href="#cb4-25"></a>  }</span>
-<span id="cb4-26"><a href="#cb4-26"></a>  </span>
-<span id="cb4-27"><a href="#cb4-27"></a>  <span class="kw">return</span>( d )</span>
-<span id="cb4-28"><a href="#cb4-28"></a></span>
-<span id="cb4-29"><a href="#cb4-29"></a>}</span></code></pre></div>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1"></a>download_pdfs &lt;-<span class="st"> </span><span class="cf">function</span>( ein )</span>
+<span id="cb11-2"><a href="#cb11-2"></a>{</span>
+<span id="cb11-3"><a href="#cb11-3"></a>  </span>
+<span id="cb11-4"><a href="#cb11-4"></a>  URL &lt;-<span class="st"> </span><span class="kw">paste0</span>( <span class="st">&quot;https://projects.propublica.org/nonprofits/api/v2/organizations/&quot;</span>, ein, <span class="st">&quot;.json&quot;</span> )</span>
+<span id="cb11-5"><a href="#cb11-5"></a>  </span>
+<span id="cb11-6"><a href="#cb11-6"></a>  results.json &lt;-<span class="st"> </span><span class="kw">getURL</span>( URL, <span class="dt">ssl.verifypeer =</span> <span class="ot">FALSE</span> )</span>
+<span id="cb11-7"><a href="#cb11-7"></a>  </span>
+<span id="cb11-8"><a href="#cb11-8"></a>  r2 &lt;-<span class="st"> </span><span class="kw">gsub</span>( <span class="st">&quot;</span><span class="ch">\n</span><span class="st">&quot;</span>, <span class="st">&quot;&quot;</span>, results.json )</span>
+<span id="cb11-9"><a href="#cb11-9"></a>  </span>
+<span id="cb11-10"><a href="#cb11-10"></a>  d &lt;-<span class="st"> </span><span class="kw">fromJSON</span>( r2 )</span>
+<span id="cb11-11"><a href="#cb11-11"></a>  </span>
+<span id="cb11-12"><a href="#cb11-12"></a>  pdfs &lt;-<span class="st"> </span>d<span class="op">$</span>filings_without_data</span>
+<span id="cb11-13"><a href="#cb11-13"></a>  </span>
+<span id="cb11-14"><a href="#cb11-14"></a>  <span class="cf">if</span>( <span class="kw">nrow</span>(pdfs) <span class="op">&gt;</span><span class="st"> </span><span class="dv">0</span> )</span>
+<span id="cb11-15"><a href="#cb11-15"></a>  {</span>
+<span id="cb11-16"><a href="#cb11-16"></a>   <span class="cf">for</span>( i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span><span class="kw">nrow</span>(pdfs) )</span>
+<span id="cb11-17"><a href="#cb11-17"></a>   {  </span>
+<span id="cb11-18"><a href="#cb11-18"></a>  </span>
+<span id="cb11-19"><a href="#cb11-19"></a>     file.name &lt;-<span class="st"> </span><span class="kw">paste0</span>( <span class="st">&quot;EIN_&quot;</span>, ein , <span class="st">&quot;_YEAR_&quot;</span>, pdfs<span class="op">$</span>tax_prd_yr[i], <span class="st">&quot;.pdf&quot;</span> )</span>
+<span id="cb11-20"><a href="#cb11-20"></a>     <span class="kw">download.file</span>( <span class="dt">url=</span>pdfs<span class="op">$</span>pdf_url[i], </span>
+<span id="cb11-21"><a href="#cb11-21"></a>                    <span class="dt">destfile=</span>file.name,</span>
+<span id="cb11-22"><a href="#cb11-22"></a>                    <span class="dt">mode=</span><span class="st">&quot;wb&quot;</span> )  </span>
+<span id="cb11-23"><a href="#cb11-23"></a>   }</span>
+<span id="cb11-24"><a href="#cb11-24"></a>   </span>
+<span id="cb11-25"><a href="#cb11-25"></a>  }</span>
+<span id="cb11-26"><a href="#cb11-26"></a>  </span>
+<span id="cb11-27"><a href="#cb11-27"></a>  <span class="kw">return</span>( <span class="kw">dir</span>() )</span>
+<span id="cb11-28"><a href="#cb11-28"></a></span>
+<span id="cb11-29"><a href="#cb11-29"></a>}</span></code></pre></div>
 <style type="text/css">
 
 body{
