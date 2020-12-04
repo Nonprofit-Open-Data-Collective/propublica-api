@@ -260,14 +260,17 @@ summary {
 
 <div id="TOC">
 <ul>
+<li><a href="#overview">Overview</a></li>
 <li><a href="#api-capability">API Capability</a></li>
-<li><a href="#api-documentation">API Documentation</a></li>
 <li><a href="#demo">Demo</a></li>
 <li><a href="#batch-pdf-download">Batch PDF Download</a></li>
 <li><a href="#draft-function">Draft Function</a></li>
+<li><a href="#full-api-documentation">Full API Documentation</a></li>
 </ul>
 </div>
 
+<div id="overview" class="section level2">
+<h2>Overview</h2>
 <p>Demo functions for working with <a href="https://projects.propublica.org/nonprofits/">ProPublica’s Nonprofit Explorer</a>.</p>
 <p><em>Use this database to view summaries of 3 million tax returns from tax-exempt organizations and see financial details such as their executive compensation and revenue and expenses. You can browse IRS data released since 2013 and access more than 14 million tax filing documents going back as far as 2001.</em></p>
 <p><strong>From their site:</strong></p>
@@ -293,15 +296,22 @@ summary {
 <li>Form 990 documents as XML files. Includes complete filing data (financial details, names of officers, tax schedules, etc.) in machine-readable format. Only available for electronically filed documents.</li>
 <li>Audits. PDFs of single or program-specific audits for nonprofit organizations that spent $750,000 or more in Federal grant money in a single fiscal year. Available for 2016 and later.</li>
 </ul>
+</div>
 <div id="api-capability" class="section level2">
 <h2>API Capability</h2>
 <p>There is basic meta-data available for each organization (name, EIN, tax year, total revenue, etc.).</p>
 <p>Information for each 990 depends on the type of filing - paper versions or e-files.</p>
 <p>The API has some capability to access digitized information, as well as download PDFs of paper filers.</p>
-</div>
-<div id="api-documentation" class="section level2">
-<h2>API Documentation</h2>
-<p>Documentation can be found at <a href="https://projects.propublica.org/nonprofits/api">Nonprofit Explorer API</a>.</p>
+<p>The generic API call will return a list with five tables:</p>
+<ul>
+<li><strong>organization</strong>: nonprofit org attributes<br />
+</li>
+<li><strong>filings_with_data</strong>: basic data from tax years where 990 efile data available<br />
+</li>
+<li><strong>filings_without_data</strong>: tax years where PDFs are available, but no digitized data</li>
+<li><strong>data_source</strong>: original sources of data available through the API</li>
+<li><strong>api_version</strong>: version of NP Explorer API (currently v2)</li>
+</ul>
 </div>
 <div id="demo" class="section level2">
 <h2>Demo</h2>
@@ -322,20 +332,12 @@ summary {
 <span id="cb1-14"><a href="#cb1-14"></a></span>
 <span id="cb1-15"><a href="#cb1-15"></a>r2 &lt;-<span class="st"> </span><span class="kw">gsub</span>( <span class="st">&quot;</span><span class="ch">\n</span><span class="st">&quot;</span>, <span class="st">&quot;&quot;</span>, results.json )</span>
 <span id="cb1-16"><a href="#cb1-16"></a></span>
-<span id="cb1-17"><a href="#cb1-17"></a><span class="kw">names</span>( r2 )</span></code></pre></div>
-<pre><code>## NULL</code></pre>
-<p>The generic API call will return a list with five tables:</p>
-<ul>
-<li><strong>organization</strong>: nonprofit org attributes<br />
-</li>
-<li><strong>filings_with_data</strong>: basic data from tax years where 990 efile data available<br />
-</li>
-<li><strong>filings_without_data</strong>: tax years where PDFs are available, but no digitized data</li>
-<li><strong>data_source</strong>: original sources of data available through the API</li>
-<li><strong>api_version</strong>: version of NP Explorer API (currently v2)</li>
-</ul>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a>api.tables &lt;-<span class="st"> </span><span class="kw">fromJSON</span>( r2 )</span>
-<span id="cb3-2"><a href="#cb3-2"></a><span class="kw">head</span>( api.tables<span class="op">$</span>organization ) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">pander</span>()</span></code></pre></div>
+<span id="cb1-17"><a href="#cb1-17"></a>api.tables &lt;-<span class="st"> </span><span class="kw">fromJSON</span>( r2 )</span>
+<span id="cb1-18"><a href="#cb1-18"></a></span>
+<span id="cb1-19"><a href="#cb1-19"></a><span class="kw">names</span>( api.tables )</span></code></pre></div>
+<pre><code>## [1] &quot;organization&quot;         &quot;filings_with_data&quot;    &quot;filings_without_data&quot;
+## [4] &quot;data_source&quot;          &quot;api_version&quot;</code></pre>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a><span class="kw">head</span>( api.tables<span class="op">$</span>organization ) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">pander</span>()</span></code></pre></div>
 <ul>
 <li><strong>id</strong>: <em>10165097</em></li>
 <li><strong>ein</strong>: <em>10165097</em></li>
@@ -1718,6 +1720,28 @@ summary {
 <span id="cb11-27"><a href="#cb11-27"></a>  <span class="kw">return</span>( <span class="kw">dir</span>() )</span>
 <span id="cb11-28"><a href="#cb11-28"></a></span>
 <span id="cb11-29"><a href="#cb11-29"></a>}</span></code></pre></div>
+</div>
+<div id="full-api-documentation" class="section level2">
+<h2>Full API Documentation</h2>
+<p>The full documentation of all API functionality can be found at <a href="https://projects.propublica.org/nonprofits/api">Nonprofit Explorer API</a>.</p>
+<br>
+<br>
+<br>
+<hr>
+<p><br></p>
+<center>
+<img src="images/nodc-icon.png" /> <i>
+<h3>
+Nonprofit Open Data Collection
+</h3>
+<p></i></p>
+</center>
+<br>
+<hr>
+<p><br>
+<br>
+<br>
+<br></p>
 <style type="text/css">
 
 body{
