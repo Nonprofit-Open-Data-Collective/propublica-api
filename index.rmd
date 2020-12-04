@@ -129,7 +129,7 @@ api.tables$api_version
 
 Available PDFs will be listed in the **filings_without_data** table. 
 
-Preview PDFs:  [ZIP Directory](https://github.com/Nonprofit-Open-Data-Collective/propublica-api/raw/main/IRS990_PDFs.zip) [ON GITHUB](https://github.com/Nonprofit-Open-Data-Collective/propublica-api/tree/main/IRS990_PDFs)  
+Preview PDFs:   [ [ON GITHUB](https://github.com/Nonprofit-Open-Data-Collective/propublica-api/tree/main/IRS990_PDFs) ] [ [Download](https://github.com/Nonprofit-Open-Data-Collective/propublica-api/raw/main/IRS990_PDFs.zip) ]
 
 For the organizations with paper filings available you can download PDFs using the following loop: 
 
@@ -211,6 +211,7 @@ The full documentation of all API functionality can be found at [Nonprofit Explo
 
 ![](images/nodc-icon.png) <i><h3>Nonprofit Open Data Collection</h3></i>
 
+*Code available on the [NODC GitHub Project](https://github.com/Nonprofit-Open-Data-Collective/propublica-api)*
 </center>
 
 <br>
