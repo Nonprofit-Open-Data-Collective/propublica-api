@@ -1,0 +1,220 @@
+---
+title: "ProPublic Nonprofit Explorer API"
+output: 
+  bookdown::html_document2:
+    df_print: paged
+    theme: readable
+    highlight: tango
+    self_contained: false
+    number_sections: false
+    toc: yes
+    toc_float: no
+---
+
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, message=F, warning=F, fig.width = 10)
+```
+
+
+Demo functions for working with [ProPublica's Nonprofit Explorer](https://projects.propublica.org/nonprofits/). 
+
+*Use this database to view summaries of 3 million tax returns from tax-exempt organizations and see financial details such as their executive compensation and revenue and expenses. You can browse IRS data released since 2013 and access more than 14 million tax filing documents going back as far as 2001.*
+
+**From their site:** 
+
+Nonprofit Explorer includes summary data for nonprofit tax returns and full Form 990 documents, in both PDF and digital formats.
+
+The summary data contains information processed by the IRS during the 2012-2018 calendar years; this generally consists of filings for the 2011-2017 fiscal years, but may include older records. This data release includes only a subset of what can be found in the full Form 990s.
+
+In addition to the raw summary data, we link to PDFs and digital copies of full Form 990 documents wherever possible. This consists of separate releases by the IRS of Form 990 documents processed by the agency, which we update regularly.
+
+We also link to copies of audits nonprofit organizations that spent $750,000 or more in Federal grant money in a single fiscal year since 2016. These audits are copied from the Federal Audit Clearinghouse.
+
+**Which Organizations Are Here?**
+
+Every organization that has been recognized as tax exempt by the IRS has to file Form 990 every year, unless they make less than $200,000 in revenue and have less than $500,000 in assets, in which case they have to file form 990-EZ. Organizations making less than $50,000 don’t have to file either form but do have to let the IRS they’re still in business via a Form 990N "e-Postcard."
+
+Nonprofit Explorer has organizations claiming tax exemption in each of the 27 subsections of the 501(c) section of the tax code, and which have filed a Form 990, Form 990EZ or Form 990PF. Taxable trusts and private foundations that are required to file a form 990PF are also included. Small organizations filing a Form 990N "e-Postcard" are not included in this data.
+
+**Types of Nonprofits**
+
+There are 27 nonprofit designations based on the numbered subsections of section 501(c) of the tax code. 
+
+**How to Research Tax-Exempt Organizations**
+
+We've created a guide for investigating nonprofits for those just getting started as well as for seasoned pros.
+
+**API**
+
+The data powering this website is available programmatically, via an API. Read the API documentation »
+
+**Get the Data**
+
+For those interested in acquiring the original data from the source, here’s where our data comes from:
+
+* Raw filing data. Includes EINs and summary financials as structured data.
+* Exempt Organization profiles. Includes organization names, addresses, etc. You can merge this with the raw filing data using EIN numbers.
+* Form 990 documents requested and processed by Public.Resource.Org and ProPublica. We post bulk downloads of these documents at the Internet Archive.
+* Form 990 documents as XML files. Includes complete filing data (financial details, names of officers, tax schedules, etc.) in machine-readable format. Only available for electronically filed documents.
+* Audits. PDFs of single or program-specific audits for nonprofit organizations that spent $750,000 or more in Federal grant money in a single fiscal year. Available for 2016 and later.
+
+
+
+## API Capability 
+
+There is basic meta-data available for each organization (name, EIN, tax year, total revenue, etc.). 
+
+Information for each 990 depends on the type of filing - paper versions or e-files. 
+
+The API has some capability to access digitized information, as well as download PDFs of paper filers. 
+
+
+## API Documentation 
+
+Documentation can be found at [Nonprofit Explorer API](https://projects.propublica.org/nonprofits/api). 
+
+## Demo
+
+Grab a table of meta-data available on all returns for one org: 
+
+```{r}
+library( RCurl )
+library( jsonlite )
+library( dplyr )
+library( pander )
+
+# API CALL
+# https://projects.propublica.org/nonprofits/api/v2/organizations/010165097.json
+
+ein <- "010165097"
+
+URL <- paste0( "https://projects.propublica.org/nonprofits/api/v2/organizations/", ein, ".json" )
+
+results.json <- getURL( URL, ssl.verifypeer = FALSE )
+
+r2 <- gsub( "\n", "", results.json )
+
+dat <- fromJSON( r2 )
+
+dat %>% pander()
+
+```
+
+
+
+## Batch PDF Download
+
+For the organizations with paper filings available you can download PDFs using the following loop: 
+
+```{r}
+# BATCH DOWNLOAD PDFs
+
+dir.create( "IRS990_PDFs" )
+
+setwd( "./IRS990_PDFs" )
+
+pdfs <- fromJSON( r2 )$filings_without_data
+
+if( nrow(pdfs) > 0 )
+{
+ for( i in 1:nrow(pdfs) )
+ {  
+
+   file.name <- paste0( "EIN_", ein , "_YEAR_", pdfs$tax_prd_yr[i], ".pdf" )
+   download.file( url=pdfs$pdf_url[i], 
+                  destfile=file.name,
+                  mode="wb" )  
+ }
+ 
+}
+
+dir()
+```
+
+
+
+## Draft Function 
+
+```{r}
+download_pdfs <- function( ein )
+{
+  
+  URL <- paste0( "https://projects.propublica.org/nonprofits/api/v2/organizations/", ein, ".json" )
+  
+  results.json <- getURL( URL, ssl.verifypeer = FALSE )
+  
+  r2 <- gsub( "\n", "", results.json )
+  
+  d <- fromJSON( r2 )
+  
+  pdfs <- d$filings_without_data
+  
+  if( nrow(pdfs) > 0 )
+  {
+   for( i in 1:nrow(pdfs) )
+   {  
+  
+     file.name <- paste0( "EIN_", ein , "_YEAR_", pdfs$tax_prd_yr[i], ".pdf" )
+     download.file( url=pdfs$pdf_url[i], 
+                    destfile=file.name,
+                    mode="wb" )  
+   }
+   
+  }
+  
+  return( d )
+
+}
+```
+
+
+
+```{css, echo=F}
+
+body{
+     font-family:system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+     font-size:calc(1.5em + 0.25vw);
+     font-weight:300;line-height:1.65;
+     -webkit-font-smoothing:antialiased;
+     -moz-osx-font-smoothing:grayscale;
+     margin-left:20%;
+     margin-right:20%} 
+     
+
+h1, h3, h4 { color: #995c00; }
+
+
+
+
+.footer {
+  background-color:#726e6e;
+  height:340px;
+  color:white;
+  padding: 20px 3px 20px 3px;
+  margin:0px;
+  line-height: normal;
+}
+
+.footer a{ color:orange; text-decoration:bold !important; } 
+ 
+ 
+ 
+ table{
+   border-spacing:1px;
+   margin-top:80px;
+   margin-bottom:100px !important;
+   margin-left: auto;
+   margin-right: auto;
+   align:center} 
+
+
+ 
+td{ padding: 6px 10px 6px 10px } 
+
+th{ text-align: left; } 
+
+
+```
+

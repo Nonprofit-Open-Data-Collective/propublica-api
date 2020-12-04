@@ -1,0 +1,1849 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+
+
+<title>ProPublic Nonprofit Explorer API</title>
+
+<script src="propublica-api_files/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="propublica-api_files/bootstrap-3.3.5/css/readable.min.css" rel="stylesheet" />
+<script src="propublica-api_files/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="propublica-api_files/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="propublica-api_files/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="propublica-api_files/navigation-1.1/tabsets.js"></script>
+<script src="propublica-api_files/accessible-code-block-0.0.1/empty-anchor.js"></script>
+<link href="propublica-api_files/pagedtable-1.1/css/pagedtable.css" rel="stylesheet" />
+<script src="propublica-api_files/pagedtable-1.1/js/pagedtable.js"></script>
+
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css" data-origin="pandoc">
+code.sourceCode > span { display: inline-block; line-height: 1.25; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  background-color: #f8f8f8; }
+@media screen {
+code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ef2929; } /* Alert */
+code span.an { color: #8f5902; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #c4a000; } /* Attribute */
+code span.bn { color: #0000cf; } /* BaseN */
+code span.cf { color: #204a87; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4e9a06; } /* Char */
+code span.cn { color: #000000; } /* Constant */
+code span.co { color: #8f5902; font-style: italic; } /* Comment */
+code span.cv { color: #8f5902; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #8f5902; font-weight: bold; font-style: italic; } /* Documentation */
+code span.dt { color: #204a87; } /* DataType */
+code span.dv { color: #0000cf; } /* DecVal */
+code span.er { color: #a40000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #0000cf; } /* Float */
+code span.fu { color: #000000; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #204a87; font-weight: bold; } /* Keyword */
+code span.op { color: #ce5c00; font-weight: bold; } /* Operator */
+code span.ot { color: #8f5902; } /* Other */
+code span.pp { color: #8f5902; font-style: italic; } /* Preprocessor */
+code span.sc { color: #000000; } /* SpecialChar */
+code span.ss { color: #4e9a06; } /* SpecialString */
+code span.st { color: #4e9a06; } /* String */
+code span.va { color: #000000; } /* Variable */
+code span.vs { color: #4e9a06; } /* VerbatimString */
+code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warning */
+
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    for (var j = 0; j < rules.length; j++) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") continue;
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') continue;
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+</style>
+
+
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+
+
+<div class="fluid-row" id="header">
+
+
+
+<h1 class="title toc-ignore">ProPublic Nonprofit Explorer API</h1>
+
+</div>
+
+<div id="TOC">
+<ul>
+<li><a href="#api-capability">API Capability</a></li>
+<li><a href="#api-documentation">API Documentation</a></li>
+<li><a href="#demo">Demo</a></li>
+<li><a href="#batch-pdf-download">Batch PDF Download</a></li>
+<li><a href="#draft-function">Draft Function</a></li>
+</ul>
+</div>
+
+<p>Demo functions for working with <a href="https://projects.propublica.org/nonprofits/">ProPublica’s Nonprofit Explorer</a>.</p>
+<p><em>Use this database to view summaries of 3 million tax returns from tax-exempt organizations and see financial details such as their executive compensation and revenue and expenses. You can browse IRS data released since 2013 and access more than 14 million tax filing documents going back as far as 2001.</em></p>
+<p><strong>From their site:</strong></p>
+<p>Nonprofit Explorer includes summary data for nonprofit tax returns and full Form 990 documents, in both PDF and digital formats.</p>
+<p>The summary data contains information processed by the IRS during the 2012-2018 calendar years; this generally consists of filings for the 2011-2017 fiscal years, but may include older records. This data release includes only a subset of what can be found in the full Form 990s.</p>
+<p>In addition to the raw summary data, we link to PDFs and digital copies of full Form 990 documents wherever possible. This consists of separate releases by the IRS of Form 990 documents processed by the agency, which we update regularly.</p>
+<p>We also link to copies of audits nonprofit organizations that spent $750,000 or more in Federal grant money in a single fiscal year since 2016. These audits are copied from the Federal Audit Clearinghouse.</p>
+<p><strong>Which Organizations Are Here?</strong></p>
+<p>Every organization that has been recognized as tax exempt by the IRS has to file Form 990 every year, unless they make less than $200,000 in revenue and have less than $500,000 in assets, in which case they have to file form 990-EZ. Organizations making less than $50,000 don’t have to file either form but do have to let the IRS they’re still in business via a Form 990N “e-Postcard.”</p>
+<p>Nonprofit Explorer has organizations claiming tax exemption in each of the 27 subsections of the 501(c) section of the tax code, and which have filed a Form 990, Form 990EZ or Form 990PF. Taxable trusts and private foundations that are required to file a form 990PF are also included. Small organizations filing a Form 990N “e-Postcard” are not included in this data.</p>
+<p><strong>Types of Nonprofits</strong></p>
+<p>There are 27 nonprofit designations based on the numbered subsections of section 501(c) of the tax code.</p>
+<p><strong>How to Research Tax-Exempt Organizations</strong></p>
+<p>We’ve created a guide for investigating nonprofits for those just getting started as well as for seasoned pros.</p>
+<p><strong>API</strong></p>
+<p>The data powering this website is available programmatically, via an API. Read the API documentation »</p>
+<p><strong>Get the Data</strong></p>
+<p>For those interested in acquiring the original data from the source, here’s where our data comes from:</p>
+<ul>
+<li>Raw filing data. Includes EINs and summary financials as structured data.</li>
+<li>Exempt Organization profiles. Includes organization names, addresses, etc. You can merge this with the raw filing data using EIN numbers.</li>
+<li>Form 990 documents requested and processed by Public.Resource.Org and ProPublica. We post bulk downloads of these documents at the Internet Archive.</li>
+<li>Form 990 documents as XML files. Includes complete filing data (financial details, names of officers, tax schedules, etc.) in machine-readable format. Only available for electronically filed documents.</li>
+<li>Audits. PDFs of single or program-specific audits for nonprofit organizations that spent $750,000 or more in Federal grant money in a single fiscal year. Available for 2016 and later.</li>
+</ul>
+<div id="api-capability" class="section level2">
+<h2>API Capability</h2>
+<p>There is basic meta-data available for each organization (name, EIN, tax year, total revenue, etc.).</p>
+<p>Information for each 990 depends on the type of filing - paper versions or e-files.</p>
+<p>The API has some capability to access digitized information, as well as download PDFs of paper filers.</p>
+</div>
+<div id="api-documentation" class="section level2">
+<h2>API Documentation</h2>
+<p>Documentation can be found at <a href="https://projects.propublica.org/nonprofits/api">Nonprofit Explorer API</a>.</p>
+</div>
+<div id="demo" class="section level2">
+<h2>Demo</h2>
+<p>Grab a table of meta-data available on all returns for one org:</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a><span class="kw">library</span>( RCurl )</span>
+<span id="cb1-2"><a href="#cb1-2"></a><span class="kw">library</span>( jsonlite )</span>
+<span id="cb1-3"><a href="#cb1-3"></a><span class="kw">library</span>( dplyr )</span>
+<span id="cb1-4"><a href="#cb1-4"></a><span class="kw">library</span>( pander )</span>
+<span id="cb1-5"><a href="#cb1-5"></a></span>
+<span id="cb1-6"><a href="#cb1-6"></a><span class="co"># API CALL</span></span>
+<span id="cb1-7"><a href="#cb1-7"></a><span class="co"># https://projects.propublica.org/nonprofits/api/v2/organizations/010165097.json</span></span>
+<span id="cb1-8"><a href="#cb1-8"></a></span>
+<span id="cb1-9"><a href="#cb1-9"></a>ein &lt;-<span class="st"> &quot;010165097&quot;</span></span>
+<span id="cb1-10"><a href="#cb1-10"></a></span>
+<span id="cb1-11"><a href="#cb1-11"></a>URL &lt;-<span class="st"> </span><span class="kw">paste0</span>( <span class="st">&quot;https://projects.propublica.org/nonprofits/api/v2/organizations/&quot;</span>, ein, <span class="st">&quot;.json&quot;</span> )</span>
+<span id="cb1-12"><a href="#cb1-12"></a></span>
+<span id="cb1-13"><a href="#cb1-13"></a>results.json &lt;-<span class="st"> </span><span class="kw">getURL</span>( URL, <span class="dt">ssl.verifypeer =</span> <span class="ot">FALSE</span> )</span>
+<span id="cb1-14"><a href="#cb1-14"></a></span>
+<span id="cb1-15"><a href="#cb1-15"></a>r2 &lt;-<span class="st"> </span><span class="kw">gsub</span>( <span class="st">&quot;</span><span class="ch">\n</span><span class="st">&quot;</span>, <span class="st">&quot;&quot;</span>, results.json )</span>
+<span id="cb1-16"><a href="#cb1-16"></a></span>
+<span id="cb1-17"><a href="#cb1-17"></a>dat &lt;-<span class="st"> </span><span class="kw">fromJSON</span>( r2 )</span>
+<span id="cb1-18"><a href="#cb1-18"></a></span>
+<span id="cb1-19"><a href="#cb1-19"></a>dat <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">pander</span>()</span></code></pre></div>
+<ul>
+<li><p><strong>organization</strong>:</p>
+<ul>
+<li><strong>id</strong>: <em>10165097</em></li>
+<li><strong>ein</strong>: <em>10165097</em></li>
+<li><strong>name</strong>: MAINE GROCERS &amp; FOOD PRODUCERS ASSOCIATION</li>
+<li><strong>careofname</strong>:</li>
+<li><strong>address</strong>: PO BOX 5234</li>
+<li><strong>city</strong>: AUGUSTA</li>
+<li><strong>state</strong>: ME</li>
+<li><strong>zipcode</strong>: 04332-5234</li>
+<li><strong>exemption_number</strong>: <em>0</em></li>
+<li><strong>subsection_code</strong>: <em>6</em></li>
+<li><strong>affiliation_code</strong>: <em>3</em></li>
+<li><strong>classification_codes</strong>: 3000</li>
+<li><strong>ruling_date</strong>: 1983-08-01</li>
+<li><strong>deductibility_code</strong>: <em>2</em></li>
+<li><strong>foundation_code</strong>: <em>0</em></li>
+<li><strong>activity_codes</strong>: 200207000</li>
+<li><strong>organization_code</strong>: <em>1</em></li>
+<li><strong>exempt_organization_status_code</strong>: <em>1</em></li>
+<li><strong>tax_period</strong>: 2019-12-01</li>
+<li><strong>asset_code</strong>: <em>4</em></li>
+<li><strong>income_code</strong>: <em>4</em></li>
+<li><strong>filing_requirement_code</strong>: <em>1</em></li>
+<li><strong>pf_filing_requirement_code</strong>: <em>0</em></li>
+<li><strong>accounting_period</strong>: <em>12</em></li>
+<li><strong>asset_amount</strong>: <em>109228</em></li>
+<li><strong>income_amount</strong>: <em>168224</em></li>
+<li><strong>revenue_amount</strong>: <em>160110</em></li>
+<li><strong>ntee_code</strong>: S41Z</li>
+<li><strong>sort_name</strong>:</li>
+<li><strong>created_at</strong>: 2020-11-18T13:12:01.099Z</li>
+<li><strong>updated_at</strong>: 2020-11-18T13:12:01.099Z</li>
+<li><strong>data_source</strong>:</li>
+<li><strong>have_extracts</strong>:</li>
+<li><strong>have_pdfs</strong>:</li>
+</ul></li>
+<li><p><strong>filings_with_data</strong>:</p>
+<table style="width:50%;">
+<caption>Table continues below</caption>
+<colgroup>
+<col width="13%" />
+<col width="18%" />
+<col width="18%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center">tax_prd</th>
+<th align="center">tax_prd_yr</th>
+<th align="center">formtype</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">201712</td>
+<td align="center">2017</td>
+<td align="center">1</td>
+</tr>
+<tr class="even">
+<td align="center">201512</td>
+<td align="center">2015</td>
+<td align="center">1</td>
+</tr>
+<tr class="odd">
+<td align="center">201412</td>
+<td align="center">2014</td>
+<td align="center">1</td>
+</tr>
+<tr class="even">
+<td align="center">201312</td>
+<td align="center">2013</td>
+<td align="center">0</td>
+</tr>
+<tr class="odd">
+<td align="center">201212</td>
+<td align="center">2012</td>
+<td align="center">1</td>
+</tr>
+<tr class="even">
+<td align="center">201112</td>
+<td align="center">2011</td>
+<td align="center">1</td>
+</tr>
+</tbody>
+</table>
+<table>
+<caption>Table continues below</caption>
+<colgroup>
+<col width="100%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center">pdf_url</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">NA</td>
+</tr>
+<tr class="even">
+<td align="center">NA</td>
+</tr>
+<tr class="odd">
+<td align="center">NA</td>
+</tr>
+<tr class="even">
+<td align="center"><a href="https://projects.propublica.org/nonprofits/download-filing?path=2014_09_EO%2F01-0165097_990O_201312.pdf" class="uri">https://projects.propublica.org/nonprofits/download-filing?path=2014_09_EO%2F01-0165097_990O_201312.pdf</a></td>
+</tr>
+<tr class="odd">
+<td align="center">NA</td>
+</tr>
+<tr class="even">
+<td align="center">NA</td>
+</tr>
+</tbody>
+</table>
+<table style="width:97%;">
+<caption>Table continues below</caption>
+<colgroup>
+<col width="37%" />
+<col width="18%" />
+<col width="20%" />
+<col width="20%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center">updated</th>
+<th align="center">totrevenue</th>
+<th align="center">totfuncexpns</th>
+<th align="center">totassetsend</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">2019-10-15T18:40:39.744Z</td>
+<td align="center">174354</td>
+<td align="center">164641</td>
+<td align="center">98154</td>
+</tr>
+<tr class="even">
+<td align="center">2017-06-30T00:40:46.710Z</td>
+<td align="center">169693</td>
+<td align="center">160351</td>
+<td align="center">90996</td>
+</tr>
+<tr class="odd">
+<td align="center">2017-06-30T00:24:53.693Z</td>
+<td align="center">172126</td>
+<td align="center">188041</td>
+<td align="center">58127</td>
+</tr>
+<tr class="even">
+<td align="center">2017-06-30T00:05:00.581Z</td>
+<td align="center">194073</td>
+<td align="center">187045</td>
+<td align="center">74014</td>
+</tr>
+<tr class="odd">
+<td align="center">2017-06-29T23:56:02.188Z</td>
+<td align="center">171454</td>
+<td align="center">164369</td>
+<td align="center">65394</td>
+</tr>
+<tr class="even">
+<td align="center">2017-06-29T23:41:38.920Z</td>
+<td align="center">180031</td>
+<td align="center">171155</td>
+<td align="center">60251</td>
+</tr>
+</tbody>
+</table>
+<table>
+<caption>Table continues below</caption>
+<colgroup>
+<col width="17%" />
+<col width="32%" />
+<col width="14%" />
+<col width="16%" />
+<col width="18%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center">totliabend</th>
+<th align="center">pct_compnsatncurrofcr</th>
+<th align="center">subseccd</th>
+<th align="center">totcntrbs</th>
+<th align="center">prgmservrev</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">29381</td>
+<td align="center">-0.001</td>
+<td align="center">6</td>
+<td align="center">91145</td>
+<td align="center">6075</td>
+</tr>
+<tr class="even">
+<td align="center">45962</td>
+<td align="center">-0.001</td>
+<td align="center">6</td>
+<td align="center">81195</td>
+<td align="center">10095</td>
+</tr>
+<tr class="odd">
+<td align="center">30732</td>
+<td align="center">-0.001</td>
+<td align="center">6</td>
+<td align="center">53740</td>
+<td align="center">37375</td>
+</tr>
+<tr class="even">
+<td align="center">30704</td>
+<td align="center">0</td>
+<td align="center">6</td>
+<td align="center">NA</td>
+<td align="center">NA</td>
+</tr>
+<tr class="odd">
+<td align="center">18167</td>
+<td align="center">-0.001</td>
+<td align="center">6</td>
+<td align="center">78910</td>
+<td align="center">0</td>
+</tr>
+<tr class="even">
+<td align="center">20109</td>
+<td align="center">-0.001</td>
+<td align="center">6</td>
+<td align="center">89291</td>
+<td align="center">0</td>
+</tr>
+</tbody>
+</table>
+<table>
+<caption>Table continues below</caption>
+<colgroup>
+<col width="21%" />
+<col width="20%" />
+<col width="28%" />
+<col width="28%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center">duesassesmnts</th>
+<th align="center">othrinvstinc</th>
+<th align="center">grsamtsalesastothr</th>
+<th align="center">basisalesexpnsothr</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">75595</td>
+<td align="center">84</td>
+<td align="center">0</td>
+<td align="center">0</td>
+</tr>
+<tr class="even">
+<td align="center">79061</td>
+<td align="center">45</td>
+<td align="center">0</td>
+<td align="center">0</td>
+</tr>
+<tr class="odd">
+<td align="center">73416</td>
+<td align="center">33</td>
+<td align="center">0</td>
+<td align="center">0</td>
+</tr>
+<tr class="even">
+<td align="center">NA</td>
+<td align="center">NA</td>
+<td align="center">NA</td>
+<td align="center">NA</td>
+</tr>
+<tr class="odd">
+<td align="center">59910</td>
+<td align="center">62</td>
+<td align="center">0</td>
+<td align="center">0</td>
+</tr>
+<tr class="even">
+<td align="center">56042</td>
+<td align="center">116</td>
+<td align="center">0</td>
+<td align="center">0</td>
+</tr>
+</tbody>
+</table>
+<table style="width:100%;">
+<caption>Table continues below</caption>
+<colgroup>
+<col width="22%" />
+<col width="18%" />
+<col width="24%" />
+<col width="13%" />
+<col width="20%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center">gnsaleofastothr</th>
+<th align="center">grsincgaming</th>
+<th align="center">grsrevnuefndrsng</th>
+<th align="center">direxpns</th>
+<th align="center">netincfndrsng</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">8610</td>
+<td align="center">7524</td>
+<td align="center">1086</td>
+</tr>
+<tr class="even">
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">6007</td>
+<td align="center">7030</td>
+<td align="center">-1023</td>
+</tr>
+<tr class="odd">
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">14930</td>
+<td align="center">7668</td>
+<td align="center">7262</td>
+</tr>
+<tr class="even">
+<td align="center">NA</td>
+<td align="center">0</td>
+<td align="center">NA</td>
+<td align="center">NA</td>
+<td align="center">6543</td>
+</tr>
+<tr class="odd">
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">28708</td>
+<td align="center">9627</td>
+<td align="center">19081</td>
+</tr>
+<tr class="even">
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">25455</td>
+<td align="center">8722</td>
+<td align="center">16733</td>
+</tr>
+</tbody>
+</table>
+<table>
+<caption>Table continues below</caption>
+<colgroup>
+<col width="22%" />
+<col width="18%" />
+<col width="12%" />
+<col width="15%" />
+<col width="15%" />
+<col width="15%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center">grsalesminusret</th>
+<th align="center">costgoodsold</th>
+<th align="center">grsprft</th>
+<th align="center">othrevnue</th>
+<th align="center">totrevnue</th>
+<th align="center">totexpns</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">369</td>
+<td align="center">174354</td>
+<td align="center">164641</td>
+</tr>
+<tr class="even">
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">320</td>
+<td align="center">169693</td>
+<td align="center">160351</td>
+</tr>
+<tr class="odd">
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">300</td>
+<td align="center">172126</td>
+<td align="center">188041</td>
+</tr>
+<tr class="even">
+<td align="center">NA</td>
+<td align="center">NA</td>
+<td align="center">NA</td>
+<td align="center">NA</td>
+<td align="center">NA</td>
+<td align="center">NA</td>
+</tr>
+<tr class="odd">
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">13491</td>
+<td align="center">171454</td>
+<td align="center">164369</td>
+</tr>
+<tr class="even">
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">17849</td>
+<td align="center">180031</td>
+<td align="center">171155</td>
+</tr>
+</tbody>
+</table>
+<table style="width:96%;">
+<caption>Table continues below</caption>
+<colgroup>
+<col width="19%" />
+<col width="30%" />
+<col width="25%" />
+<col width="20%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center">totexcessyr</th>
+<th align="center">othrchgsnetassetfnd</th>
+<th align="center">totnetassetsend</th>
+<th align="center">unrelbusincd</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">9713</td>
+<td align="center">0</td>
+<td align="center">68773</td>
+<td align="center">0</td>
+</tr>
+<tr class="even">
+<td align="center">9342</td>
+<td align="center">8296</td>
+<td align="center">45034</td>
+<td align="center">0</td>
+</tr>
+<tr class="odd">
+<td align="center">-15915</td>
+<td align="center">0</td>
+<td align="center">27395</td>
+<td align="center">0</td>
+</tr>
+<tr class="even">
+<td align="center">NA</td>
+<td align="center">NA</td>
+<td align="center">NA</td>
+<td align="center">NA</td>
+</tr>
+<tr class="odd">
+<td align="center">7085</td>
+<td align="center">0</td>
+<td align="center">47227</td>
+<td align="center">0</td>
+</tr>
+<tr class="even">
+<td align="center">8876</td>
+<td align="center">0</td>
+<td align="center">40142</td>
+<td align="center">0</td>
+</tr>
+</tbody>
+</table>
+<table>
+<caption>Table continues below</caption>
+<colgroup>
+<col width="19%" />
+<col width="20%" />
+<col width="13%" />
+<col width="20%" />
+<col width="24%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center">initiationfee</th>
+<th align="center">grspublicrcpts</th>
+<th align="center">nonpfrea</th>
+<th align="center">gftgrntrcvd170</th>
+<th align="center">txrevnuelevied170</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+</tr>
+<tr class="even">
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">NA</td>
+<td align="center">0</td>
+</tr>
+<tr class="odd">
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+</tr>
+<tr class="even">
+<td align="center">NA</td>
+<td align="center">NA</td>
+<td align="center">0</td>
+<td align="center">NA</td>
+<td align="center">0</td>
+</tr>
+<tr class="odd">
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">NA</td>
+<td align="center">0</td>
+</tr>
+<tr class="even">
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+</tr>
+</tbody>
+</table>
+<table style="width:92%;">
+<caption>Table continues below</caption>
+<colgroup>
+<col width="19%" />
+<col width="16%" />
+<col width="27%" />
+<col width="27%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center">srvcsval170</th>
+<th align="center">grsinc170</th>
+<th align="center">grsrcptsrelatd170</th>
+<th align="center">totgftgrntrcvd509</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+</tr>
+<tr class="even">
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">NA</td>
+<td align="center">0</td>
+</tr>
+<tr class="odd">
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+</tr>
+<tr class="even">
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">NA</td>
+<td align="center">0</td>
+</tr>
+<tr class="odd">
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">NA</td>
+<td align="center">0</td>
+</tr>
+<tr class="even">
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+</tr>
+</tbody>
+</table>
+<table>
+<caption>Table continues below</caption>
+<colgroup>
+<col width="27%" />
+<col width="27%" />
+<col width="19%" />
+<col width="26%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center">grsrcptsadmiss509</th>
+<th align="center">txrevnuelevied509</th>
+<th align="center">srvcsval509</th>
+<th align="center">subtotsuppinc509</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+</tr>
+<tr class="even">
+<td align="center">NA</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+</tr>
+<tr class="odd">
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+</tr>
+<tr class="even">
+<td align="center">NA</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+</tr>
+<tr class="odd">
+<td align="center">NA</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+</tr>
+<tr class="even">
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+</tr>
+</tbody>
+</table>
+<table style="width:92%;">
+<caption>Table continues below</caption>
+<colgroup>
+<col width="18%" />
+<col width="15%" />
+<col width="12%" />
+<col width="22%" />
+<col width="23%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center">totsupp509</th>
+<th align="center">ein</th>
+<th align="center">tax_pd</th>
+<th align="center">unrelbusinccd</th>
+<th align="center">initiationfees</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">0</td>
+<td align="center">10165097</td>
+<td align="center">NA</td>
+<td align="center">NA</td>
+<td align="center">NA</td>
+</tr>
+<tr class="even">
+<td align="center">0</td>
+<td align="center">10165097</td>
+<td align="center">NA</td>
+<td align="center">NA</td>
+<td align="center">NA</td>
+</tr>
+<tr class="odd">
+<td align="center">0</td>
+<td align="center">10165097</td>
+<td align="center">NA</td>
+<td align="center">NA</td>
+<td align="center">NA</td>
+</tr>
+<tr class="even">
+<td align="center">0</td>
+<td align="center">10165097</td>
+<td align="center">NA</td>
+<td align="center">Y</td>
+<td align="center">0</td>
+</tr>
+<tr class="odd">
+<td align="center">0</td>
+<td align="center">10165097</td>
+<td align="center">NA</td>
+<td align="center">NA</td>
+<td align="center">NA</td>
+</tr>
+<tr class="even">
+<td align="center">0</td>
+<td align="center">10165097</td>
+<td align="center">NA</td>
+<td align="center">NA</td>
+<td align="center">NA</td>
+</tr>
+</tbody>
+</table>
+<table>
+<caption>Table continues below</caption>
+<colgroup>
+<col width="24%" />
+<col width="19%" />
+<col width="17%" />
+<col width="18%" />
+<col width="19%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center">grsrcptspublicuse</th>
+<th align="center">grsincmembers</th>
+<th align="center">grsincother</th>
+<th align="center">totcntrbgfts</th>
+<th align="center">totprgmrevnue</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">NA</td>
+<td align="center">NA</td>
+<td align="center">NA</td>
+<td align="center">NA</td>
+<td align="center">NA</td>
+</tr>
+<tr class="even">
+<td align="center">NA</td>
+<td align="center">NA</td>
+<td align="center">NA</td>
+<td align="center">NA</td>
+<td align="center">NA</td>
+</tr>
+<tr class="odd">
+<td align="center">NA</td>
+<td align="center">NA</td>
+<td align="center">NA</td>
+<td align="center">NA</td>
+<td align="center">NA</td>
+</tr>
+<tr class="even">
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">72449</td>
+<td align="center">114743</td>
+</tr>
+<tr class="odd">
+<td align="center">NA</td>
+<td align="center">NA</td>
+<td align="center">NA</td>
+<td align="center">NA</td>
+<td align="center">NA</td>
+</tr>
+<tr class="even">
+<td align="center">NA</td>
+<td align="center">NA</td>
+<td align="center">NA</td>
+<td align="center">NA</td>
+<td align="center">NA</td>
+</tr>
+</tbody>
+</table>
+<table>
+<caption>Table continues below</caption>
+<colgroup>
+<col width="17%" />
+<col width="28%" />
+<col width="16%" />
+<col width="17%" />
+<col width="19%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center">invstmntinc</th>
+<th align="center">txexmptbndsproceeds</th>
+<th align="center">royaltsinc</th>
+<th align="center">grsrntsreal</th>
+<th align="center">grsrntsprsnl</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">NA</td>
+<td align="center">NA</td>
+<td align="center">NA</td>
+<td align="center">NA</td>
+<td align="center">NA</td>
+</tr>
+<tr class="even">
+<td align="center">NA</td>
+<td align="center">NA</td>
+<td align="center">NA</td>
+<td align="center">NA</td>
+<td align="center">NA</td>
+</tr>
+<tr class="odd">
+<td align="center">NA</td>
+<td align="center">NA</td>
+<td align="center">NA</td>
+<td align="center">NA</td>
+<td align="center">NA</td>
+</tr>
+<tr class="even">
+<td align="center">61</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+</tr>
+<tr class="odd">
+<td align="center">NA</td>
+<td align="center">NA</td>
+<td align="center">NA</td>
+<td align="center">NA</td>
+<td align="center">NA</td>
+</tr>
+<tr class="even">
+<td align="center">NA</td>
+<td align="center">NA</td>
+<td align="center">NA</td>
+<td align="center">NA</td>
+<td align="center">NA</td>
+</tr>
+</tbody>
+</table>
+<table>
+<caption>Table continues below</caption>
+<colgroup>
+<col width="20%" />
+<col width="22%" />
+<col width="18%" />
+<col width="19%" />
+<col width="19%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center">rntlexpnsreal</th>
+<th align="center">rntlexpnsprsnl</th>
+<th align="center">rntlincreal</th>
+<th align="center">rntlincprsnl</th>
+<th align="center">netrntlinc</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">NA</td>
+<td align="center">NA</td>
+<td align="center">NA</td>
+<td align="center">NA</td>
+<td align="center">NA</td>
+</tr>
+<tr class="even">
+<td align="center">NA</td>
+<td align="center">NA</td>
+<td align="center">NA</td>
+<td align="center">NA</td>
+<td align="center">NA</td>
+</tr>
+<tr class="odd">
+<td align="center">NA</td>
+<td align="center">NA</td>
+<td align="center">NA</td>
+<td align="center">NA</td>
+<td align="center">NA</td>
+</tr>
+<tr class="even">
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+</tr>
+<tr class="odd">
+<td align="center">NA</td>
+<td align="center">NA</td>
+<td align="center">NA</td>
+<td align="center">NA</td>
+<td align="center">NA</td>
+</tr>
+<tr class="even">
+<td align="center">NA</td>
+<td align="center">NA</td>
+<td align="center">NA</td>
+<td align="center">NA</td>
+<td align="center">NA</td>
+</tr>
+</tbody>
+</table>
+<table>
+<caption>Table continues below</caption>
+<colgroup>
+<col width="17%" />
+<col width="17%" />
+<col width="18%" />
+<col width="18%" />
+<col width="13%" />
+<col width="13%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center">grsalesecur</th>
+<th align="center">grsalesothr</th>
+<th align="center">cstbasisecur</th>
+<th align="center">cstbasisothr</th>
+<th align="center">gnlsecur</th>
+<th align="center">gnlsothr</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">NA</td>
+<td align="center">NA</td>
+<td align="center">NA</td>
+<td align="center">NA</td>
+<td align="center">NA</td>
+<td align="center">NA</td>
+</tr>
+<tr class="even">
+<td align="center">NA</td>
+<td align="center">NA</td>
+<td align="center">NA</td>
+<td align="center">NA</td>
+<td align="center">NA</td>
+<td align="center">NA</td>
+</tr>
+<tr class="odd">
+<td align="center">NA</td>
+<td align="center">NA</td>
+<td align="center">NA</td>
+<td align="center">NA</td>
+<td align="center">NA</td>
+<td align="center">NA</td>
+</tr>
+<tr class="even">
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+</tr>
+<tr class="odd">
+<td align="center">NA</td>
+<td align="center">NA</td>
+<td align="center">NA</td>
+<td align="center">NA</td>
+<td align="center">NA</td>
+<td align="center">NA</td>
+</tr>
+<tr class="even">
+<td align="center">NA</td>
+<td align="center">NA</td>
+<td align="center">NA</td>
+<td align="center">NA</td>
+<td align="center">NA</td>
+<td align="center">NA</td>
+</tr>
+</tbody>
+</table>
+<table>
+<caption>Table continues below</caption>
+<colgroup>
+<col width="13%" />
+<col width="21%" />
+<col width="22%" />
+<col width="21%" />
+<col width="21%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center">netgnls</th>
+<th align="center">grsincfndrsng</th>
+<th align="center">lessdirfndrsng</th>
+<th align="center">lessdirgaming</th>
+<th align="center">netincgaming</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">NA</td>
+<td align="center">NA</td>
+<td align="center">NA</td>
+<td align="center">NA</td>
+<td align="center">NA</td>
+</tr>
+<tr class="even">
+<td align="center">NA</td>
+<td align="center">NA</td>
+<td align="center">NA</td>
+<td align="center">NA</td>
+<td align="center">NA</td>
+</tr>
+<tr class="odd">
+<td align="center">NA</td>
+<td align="center">NA</td>
+<td align="center">NA</td>
+<td align="center">NA</td>
+<td align="center">NA</td>
+</tr>
+<tr class="even">
+<td align="center">0</td>
+<td align="center">13761</td>
+<td align="center">7218</td>
+<td align="center">0</td>
+<td align="center">0</td>
+</tr>
+<tr class="odd">
+<td align="center">NA</td>
+<td align="center">NA</td>
+<td align="center">NA</td>
+<td align="center">NA</td>
+<td align="center">NA</td>
+</tr>
+<tr class="even">
+<td align="center">NA</td>
+<td align="center">NA</td>
+<td align="center">NA</td>
+<td align="center">NA</td>
+<td align="center">NA</td>
+</tr>
+</tbody>
+</table>
+<table style="width:88%;">
+<caption>Table continues below</caption>
+<colgroup>
+<col width="22%" />
+<col width="23%" />
+<col width="19%" />
+<col width="22%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center">grsalesinvent</th>
+<th align="center">lesscstofgoods</th>
+<th align="center">netincsales</th>
+<th align="center">miscrevtot11e</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">NA</td>
+<td align="center">NA</td>
+<td align="center">NA</td>
+<td align="center">NA</td>
+</tr>
+<tr class="even">
+<td align="center">NA</td>
+<td align="center">NA</td>
+<td align="center">NA</td>
+<td align="center">NA</td>
+</tr>
+<tr class="odd">
+<td align="center">NA</td>
+<td align="center">NA</td>
+<td align="center">NA</td>
+<td align="center">NA</td>
+</tr>
+<tr class="even">
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">277</td>
+</tr>
+<tr class="odd">
+<td align="center">NA</td>
+<td align="center">NA</td>
+<td align="center">NA</td>
+<td align="center">NA</td>
+</tr>
+<tr class="even">
+<td align="center">NA</td>
+<td align="center">NA</td>
+<td align="center">NA</td>
+<td align="center">NA</td>
+</tr>
+</tbody>
+</table>
+<table>
+<caption>Table continues below</caption>
+<colgroup>
+<col width="25%" />
+<col width="18%" />
+<col width="15%" />
+<col width="20%" />
+<col width="21%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center">compnsatncurrofcr</th>
+<th align="center">othrsalwages</th>
+<th align="center">payrolltx</th>
+<th align="center">profndraising</th>
+<th align="center">txexmptbndsend</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">NA</td>
+<td align="center">NA</td>
+<td align="center">NA</td>
+<td align="center">NA</td>
+<td align="center">NA</td>
+</tr>
+<tr class="even">
+<td align="center">NA</td>
+<td align="center">NA</td>
+<td align="center">NA</td>
+<td align="center">NA</td>
+<td align="center">NA</td>
+</tr>
+<tr class="odd">
+<td align="center">NA</td>
+<td align="center">NA</td>
+<td align="center">NA</td>
+<td align="center">NA</td>
+<td align="center">NA</td>
+</tr>
+<tr class="even">
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+</tr>
+<tr class="odd">
+<td align="center">NA</td>
+<td align="center">NA</td>
+<td align="center">NA</td>
+<td align="center">NA</td>
+<td align="center">NA</td>
+</tr>
+<tr class="even">
+<td align="center">NA</td>
+<td align="center">NA</td>
+<td align="center">NA</td>
+<td align="center">NA</td>
+<td align="center">NA</td>
+</tr>
+</tbody>
+</table>
+<table>
+<caption>Table continues below</caption>
+<colgroup>
+<col width="22%" />
+<col width="27%" />
+<col width="25%" />
+<col width="25%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center">secrdmrtgsend</th>
+<th align="center">unsecurednotesend</th>
+<th align="center">retainedearnend</th>
+<th align="center">totnetassetend</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">NA</td>
+<td align="center">NA</td>
+<td align="center">NA</td>
+<td align="center">NA</td>
+</tr>
+<tr class="even">
+<td align="center">NA</td>
+<td align="center">NA</td>
+<td align="center">NA</td>
+<td align="center">NA</td>
+</tr>
+<tr class="odd">
+<td align="center">NA</td>
+<td align="center">NA</td>
+<td align="center">NA</td>
+<td align="center">NA</td>
+</tr>
+<tr class="even">
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">43310</td>
+</tr>
+<tr class="odd">
+<td align="center">NA</td>
+<td align="center">NA</td>
+<td align="center">NA</td>
+<td align="center">NA</td>
+</tr>
+<tr class="even">
+<td align="center">NA</td>
+<td align="center">NA</td>
+<td align="center">NA</td>
+<td align="center">NA</td>
+</tr>
+</tbody>
+</table>
+<table style="width:83%;">
+<colgroup>
+<col width="25%" />
+<col width="29%" />
+<col width="29%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center">gftgrntsrcvd170</th>
+<th align="center">grsrcptsrelated170</th>
+<th align="center">grsrcptsadmissn509</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">NA</td>
+<td align="center">NA</td>
+<td align="center">NA</td>
+</tr>
+<tr class="even">
+<td align="center">NA</td>
+<td align="center">NA</td>
+<td align="center">NA</td>
+</tr>
+<tr class="odd">
+<td align="center">NA</td>
+<td align="center">NA</td>
+<td align="center">NA</td>
+</tr>
+<tr class="even">
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+</tr>
+<tr class="odd">
+<td align="center">NA</td>
+<td align="center">NA</td>
+<td align="center">NA</td>
+</tr>
+<tr class="even">
+<td align="center">NA</td>
+<td align="center">NA</td>
+<td align="center">NA</td>
+</tr>
+</tbody>
+</table></li>
+<li><p><strong>filings_without_data</strong>:</p>
+<table style="width:68%;">
+<caption>Table continues below</caption>
+<colgroup>
+<col width="13%" />
+<col width="18%" />
+<col width="15%" />
+<col width="20%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center">tax_prd</th>
+<th align="center">tax_prd_yr</th>
+<th align="center">formtype</th>
+<th align="center">formtype_str</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">201812</td>
+<td align="center">2018</td>
+<td align="center">0</td>
+<td align="center"></td>
+</tr>
+<tr class="even">
+<td align="center">201012</td>
+<td align="center">2010</td>
+<td align="center">0</td>
+<td align="center"></td>
+</tr>
+<tr class="odd">
+<td align="center">200912</td>
+<td align="center">2009</td>
+<td align="center">0</td>
+<td align="center"></td>
+</tr>
+<tr class="even">
+<td align="center">200812</td>
+<td align="center">2008</td>
+<td align="center">0</td>
+<td align="center"></td>
+</tr>
+<tr class="odd">
+<td align="center">200712</td>
+<td align="center">2007</td>
+<td align="center">0</td>
+<td align="center"></td>
+</tr>
+<tr class="even">
+<td align="center">200612</td>
+<td align="center">2006</td>
+<td align="center">0</td>
+<td align="center"></td>
+</tr>
+<tr class="odd">
+<td align="center">200512</td>
+<td align="center">2005</td>
+<td align="center">0</td>
+<td align="center"></td>
+</tr>
+<tr class="even">
+<td align="center">200412</td>
+<td align="center">2004</td>
+<td align="center">0</td>
+<td align="center"></td>
+</tr>
+</tbody>
+</table>
+<table>
+<colgroup>
+<col width="100%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center">pdf_url</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center"><a href="https://projects.propublica.org/nonprofits/download-filing?path=09_2019_prefixes_01-06%2F010165097_201812_990EO_2019092016671845.pdf" class="uri">https://projects.propublica.org/nonprofits/download-filing?path=09_2019_prefixes_01-06%2F010165097_201812_990EO_2019092016671845.pdf</a></td>
+</tr>
+<tr class="even">
+<td align="center"><a href="https://projects.propublica.org/nonprofits/download-filing?path=2011_04_EO%2F01-0165097_990EO_201012.pdf" class="uri">https://projects.propublica.org/nonprofits/download-filing?path=2011_04_EO%2F01-0165097_990EO_201012.pdf</a></td>
+</tr>
+<tr class="odd">
+<td align="center"><a href="https://projects.propublica.org/nonprofits/download-filing?path=2010_07_EO%2F01-0165097_990EO_200912.pdf" class="uri">https://projects.propublica.org/nonprofits/download-filing?path=2010_07_EO%2F01-0165097_990EO_200912.pdf</a></td>
+</tr>
+<tr class="even">
+<td align="center"><a href="https://projects.propublica.org/nonprofits/download-filing?path=2009_08_EO%2F01-0165097_990EO_200812.pdf" class="uri">https://projects.propublica.org/nonprofits/download-filing?path=2009_08_EO%2F01-0165097_990EO_200812.pdf</a></td>
+</tr>
+<tr class="odd">
+<td align="center"><a href="https://projects.propublica.org/nonprofits/download-filing?path=2008_07_EO%2F01-0165097_990O_200712.pdf" class="uri">https://projects.propublica.org/nonprofits/download-filing?path=2008_07_EO%2F01-0165097_990O_200712.pdf</a></td>
+</tr>
+<tr class="even">
+<td align="center"><a href="https://projects.propublica.org/nonprofits/download-filing?path=2007_10_EO%2F01-0165097_990O_200612.pdf" class="uri">https://projects.propublica.org/nonprofits/download-filing?path=2007_10_EO%2F01-0165097_990O_200612.pdf</a></td>
+</tr>
+<tr class="odd">
+<td align="center"><a href="https://projects.propublica.org/nonprofits/download-filing?path=2006_06_EO%2F01-0165097_990O_200512.pdf" class="uri">https://projects.propublica.org/nonprofits/download-filing?path=2006_06_EO%2F01-0165097_990O_200512.pdf</a></td>
+</tr>
+<tr class="even">
+<td align="center"><a href="https://projects.propublica.org/nonprofits/download-filing?path=2005_06_EO%2F01-0165097_990O_200412.pdf" class="uri">https://projects.propublica.org/nonprofits/download-filing?path=2005_06_EO%2F01-0165097_990O_200412.pdf</a></td>
+</tr>
+</tbody>
+</table></li>
+<li><p><strong>data_source</strong>: ProPublica Nonprofit Explorer API: <a href="https://projects.propublica.org/nonprofits/api/IRS" class="uri">https://projects.propublica.org/nonprofits/api/IRS</a> Exempt Organizations Business Master File Extract (EO BMF): <a href="https://www.irs.gov/charities-non-profits/exempt-organizations-business-master-file-extract-eo-bmfIRS" class="uri">https://www.irs.gov/charities-non-profits/exempt-organizations-business-master-file-extract-eo-bmfIRS</a> Annual Extract of Tax-Exempt Organization Financial Data: <a href="https://www.irs.gov/uac/soi-tax-stats-annual-extract-of-tax-exempt-organization-financial-data" class="uri">https://www.irs.gov/uac/soi-tax-stats-annual-extract-of-tax-exempt-organization-financial-data</a></p></li>
+<li><p><strong>api_version</strong>: <em>2</em></p></li>
+</ul>
+<!-- end of list -->
+</div>
+<div id="batch-pdf-download" class="section level2">
+<h2>Batch PDF Download</h2>
+<p>For the organizations with paper filings available you can download PDFs using the following loop:</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1"></a><span class="co"># BATCH DOWNLOAD PDFs</span></span>
+<span id="cb2-2"><a href="#cb2-2"></a></span>
+<span id="cb2-3"><a href="#cb2-3"></a><span class="kw">dir.create</span>( <span class="st">&quot;IRS990_PDFs&quot;</span> )</span>
+<span id="cb2-4"><a href="#cb2-4"></a></span>
+<span id="cb2-5"><a href="#cb2-5"></a><span class="kw">setwd</span>( <span class="st">&quot;./IRS990_PDFs&quot;</span> )</span>
+<span id="cb2-6"><a href="#cb2-6"></a></span>
+<span id="cb2-7"><a href="#cb2-7"></a>pdfs &lt;-<span class="st"> </span><span class="kw">fromJSON</span>( r2 )<span class="op">$</span>filings_without_data</span>
+<span id="cb2-8"><a href="#cb2-8"></a></span>
+<span id="cb2-9"><a href="#cb2-9"></a><span class="cf">if</span>( <span class="kw">nrow</span>(pdfs) <span class="op">&gt;</span><span class="st"> </span><span class="dv">0</span> )</span>
+<span id="cb2-10"><a href="#cb2-10"></a>{</span>
+<span id="cb2-11"><a href="#cb2-11"></a> <span class="cf">for</span>( i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span><span class="kw">nrow</span>(pdfs) )</span>
+<span id="cb2-12"><a href="#cb2-12"></a> {  </span>
+<span id="cb2-13"><a href="#cb2-13"></a></span>
+<span id="cb2-14"><a href="#cb2-14"></a>   file.name &lt;-<span class="st"> </span><span class="kw">paste0</span>( <span class="st">&quot;EIN_&quot;</span>, ein , <span class="st">&quot;_YEAR_&quot;</span>, pdfs<span class="op">$</span>tax_prd_yr[i], <span class="st">&quot;.pdf&quot;</span> )</span>
+<span id="cb2-15"><a href="#cb2-15"></a>   <span class="kw">download.file</span>( <span class="dt">url=</span>pdfs<span class="op">$</span>pdf_url[i], </span>
+<span id="cb2-16"><a href="#cb2-16"></a>                  <span class="dt">destfile=</span>file.name,</span>
+<span id="cb2-17"><a href="#cb2-17"></a>                  <span class="dt">mode=</span><span class="st">&quot;wb&quot;</span> )  </span>
+<span id="cb2-18"><a href="#cb2-18"></a> }</span>
+<span id="cb2-19"><a href="#cb2-19"></a> </span>
+<span id="cb2-20"><a href="#cb2-20"></a>}</span>
+<span id="cb2-21"><a href="#cb2-21"></a></span>
+<span id="cb2-22"><a href="#cb2-22"></a><span class="kw">dir</span>()</span></code></pre></div>
+<pre><code>## [1] &quot;EIN_010165097_YEAR_2004.pdf&quot; &quot;EIN_010165097_YEAR_2005.pdf&quot;
+## [3] &quot;EIN_010165097_YEAR_2006.pdf&quot; &quot;EIN_010165097_YEAR_2007.pdf&quot;
+## [5] &quot;EIN_010165097_YEAR_2008.pdf&quot; &quot;EIN_010165097_YEAR_2009.pdf&quot;
+## [7] &quot;EIN_010165097_YEAR_2010.pdf&quot; &quot;EIN_010165097_YEAR_2018.pdf&quot;</code></pre>
+</div>
+<div id="draft-function" class="section level2">
+<h2>Draft Function</h2>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1"></a>download_pdfs &lt;-<span class="st"> </span><span class="cf">function</span>( ein )</span>
+<span id="cb4-2"><a href="#cb4-2"></a>{</span>
+<span id="cb4-3"><a href="#cb4-3"></a>  </span>
+<span id="cb4-4"><a href="#cb4-4"></a>  URL &lt;-<span class="st"> </span><span class="kw">paste0</span>( <span class="st">&quot;https://projects.propublica.org/nonprofits/api/v2/organizations/&quot;</span>, ein, <span class="st">&quot;.json&quot;</span> )</span>
+<span id="cb4-5"><a href="#cb4-5"></a>  </span>
+<span id="cb4-6"><a href="#cb4-6"></a>  results.json &lt;-<span class="st"> </span><span class="kw">getURL</span>( URL, <span class="dt">ssl.verifypeer =</span> <span class="ot">FALSE</span> )</span>
+<span id="cb4-7"><a href="#cb4-7"></a>  </span>
+<span id="cb4-8"><a href="#cb4-8"></a>  r2 &lt;-<span class="st"> </span><span class="kw">gsub</span>( <span class="st">&quot;</span><span class="ch">\n</span><span class="st">&quot;</span>, <span class="st">&quot;&quot;</span>, results.json )</span>
+<span id="cb4-9"><a href="#cb4-9"></a>  </span>
+<span id="cb4-10"><a href="#cb4-10"></a>  d &lt;-<span class="st"> </span><span class="kw">fromJSON</span>( r2 )</span>
+<span id="cb4-11"><a href="#cb4-11"></a>  </span>
+<span id="cb4-12"><a href="#cb4-12"></a>  pdfs &lt;-<span class="st"> </span>d<span class="op">$</span>filings_without_data</span>
+<span id="cb4-13"><a href="#cb4-13"></a>  </span>
+<span id="cb4-14"><a href="#cb4-14"></a>  <span class="cf">if</span>( <span class="kw">nrow</span>(pdfs) <span class="op">&gt;</span><span class="st"> </span><span class="dv">0</span> )</span>
+<span id="cb4-15"><a href="#cb4-15"></a>  {</span>
+<span id="cb4-16"><a href="#cb4-16"></a>   <span class="cf">for</span>( i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span><span class="kw">nrow</span>(pdfs) )</span>
+<span id="cb4-17"><a href="#cb4-17"></a>   {  </span>
+<span id="cb4-18"><a href="#cb4-18"></a>  </span>
+<span id="cb4-19"><a href="#cb4-19"></a>     file.name &lt;-<span class="st"> </span><span class="kw">paste0</span>( <span class="st">&quot;EIN_&quot;</span>, ein , <span class="st">&quot;_YEAR_&quot;</span>, pdfs<span class="op">$</span>tax_prd_yr[i], <span class="st">&quot;.pdf&quot;</span> )</span>
+<span id="cb4-20"><a href="#cb4-20"></a>     <span class="kw">download.file</span>( <span class="dt">url=</span>pdfs<span class="op">$</span>pdf_url[i], </span>
+<span id="cb4-21"><a href="#cb4-21"></a>                    <span class="dt">destfile=</span>file.name,</span>
+<span id="cb4-22"><a href="#cb4-22"></a>                    <span class="dt">mode=</span><span class="st">&quot;wb&quot;</span> )  </span>
+<span id="cb4-23"><a href="#cb4-23"></a>   }</span>
+<span id="cb4-24"><a href="#cb4-24"></a>   </span>
+<span id="cb4-25"><a href="#cb4-25"></a>  }</span>
+<span id="cb4-26"><a href="#cb4-26"></a>  </span>
+<span id="cb4-27"><a href="#cb4-27"></a>  <span class="kw">return</span>( d )</span>
+<span id="cb4-28"><a href="#cb4-28"></a></span>
+<span id="cb4-29"><a href="#cb4-29"></a>}</span></code></pre></div>
+<style type="text/css">
+
+body{
+     font-family:system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+     font-size:calc(1.5em + 0.25vw);
+     font-weight:300;line-height:1.65;
+     -webkit-font-smoothing:antialiased;
+     -moz-osx-font-smoothing:grayscale;
+     margin-left:20%;
+     margin-right:20%} 
+     
+
+h1, h3, h4 { color: #995c00; }
+
+
+
+
+.footer {
+  background-color:#726e6e;
+  height:340px;
+  color:white;
+  padding: 20px 3px 20px 3px;
+  margin:0px;
+  line-height: normal;
+}
+
+.footer a{ color:orange; text-decoration:bold !important; } 
+ 
+ 
+ 
+ table{
+   border-spacing:1px;
+   margin-top:80px;
+   margin-bottom:100px !important;
+   margin-left: auto;
+   margin-right: auto;
+   align:center} 
+
+
+ 
+td{ padding: 6px 10px 6px 10px } 
+
+th{ text-align: left; } 
+
+
+</style>
+</div>
+
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open')
+  });
+});
+</script>
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
