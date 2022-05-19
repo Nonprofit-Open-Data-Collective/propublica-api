@@ -103,16 +103,20 @@ ein <- "010165097"
 
 URL <- paste0( "https://projects.propublica.org/nonprofits/api/v2/organizations/", ein, ".json" )
 
-results.json <- getURL( URL, ssl.verifypeer = FALSE )
+# THIS BROKE WITH CHANGES TO THE SITE
+# results.json <- getURL( URL, ssl.verifypeer = FALSE )
+# 
+# r2 <- gsub( "\n", "", results.json )
+# 
+# api.tables <- fromJSON( r2 )
 
-r2 <- gsub( "\n", "", results.json )
-
-api.tables <- fromJSON( r2 )
+api.tables <- fromJSON( URL )
 
 names( api.tables )
 
 ```
 
+Here are examples of the types of data available in each of 5 tables returned by the API: 
 
 ```{r}
 head( api.tables$organization ) %>% pander()
